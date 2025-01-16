@@ -63,7 +63,7 @@
                   <field  name="weight_drt"/>
                   <field  name="vessel_loa"/>
                   <field  name="vessel_beam"/>
-                  <field name="total_weighty" required= "stages=='ship'"/>
+                  <field name="vessel_draft"/>
               </group>
              <group invisible="stages != 'ship'">
                 <field name="total_crew"/>
@@ -72,6 +72,8 @@
                 <field name="consigne_id" string="Armateur"/>
                 <field name="num_voy"/>
                 <field name="order_template_id" options="{'no_create': True}"/>
+                 <field name="cargo_weight" />
+                 <field name="volum_vessel" />
             </group>
             <group string="Dates" invisible="stages != 'ship'">
                 <field name="date_arrival"  required= "stages=='ship'"/>
@@ -158,6 +160,16 @@
         </field>
       </record>
 
+        <record id="view_order_form_inherit_euro" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.euro</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_unit']" position="after">
+                    <field name="price_usd_subtotal" string="Montant en USD" />
+                </xpath>
+            </field>
+        </record>
      <record id="action_shipping_folder" model="ir.actions.act_window">
         <field name="name">Ouverture du Dossier Shipping</field>
         <field name="type">ir.actions.act_window</field>

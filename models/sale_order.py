@@ -322,9 +322,9 @@ class Saleorderline(models.Model):
         """
         Compute the amounts of the SO line.
         """
-        for line in self:
+        for line in self:price_usd_subtotal
             line.update({
-                'price_usd_subtotal': line.price_subtotal / line.price_usd 
+                '': line.price_subtotal / line.price_usd
             })
 
     

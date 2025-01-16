@@ -6,7 +6,7 @@
             <field name="name">folder.transit.bl.tree</field>
             <field name="model">folder.transit.bl</field>
             <field name="arch" type="xml">
-                <tree string="BL" create="false">
+                <tree string="BL">
                     <field name="name"/>
                     <field name="customer_id"/>
                     <field name="product_id"/>

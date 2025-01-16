@@ -56,12 +56,30 @@ class FolderTransit(models.Model):
     bl_many_ids = fields.Many2many('folder.transit.bl', 'rel_transit_bl_order', string="BLs")
     sale_ids = fields.One2many(string='Proformas', comodel_name='sale.order', inverse_name='folder_id')
     sales_count = fields.Integer('Proformas', compute='compute_sales_ids', store=True)
+    cargo_weight = fields.Float(string='Poids de la cargaison du navire', compute='sum_bl_qty', store=True)
     
 
     @api.depends('vessel_draft','vessel_loa','vessel_beam')
     def _get_data_vessel(self):
         for record in self:
             record.volum_vessel = record.vessel_draft * record.vessel_loa * record.vessel_beam
+
+    @api.depends('bl_many_ids.qty')
+    def sum_bl_qty(self):
+        for record in self:
+            # Initialiser une variable pour la somme
+            total_qty = 0.0
+
+            # Itérer sur chaque enregistrement de bl_many_ids pour additionner les quantités
+            for bl in record.bl_many_ids:
+                total_qty += bl.qty  # Ajouter la quantité à la somme
+
+            # Afficher le tableau des quantités dans la console
+            print("Quantités des enregistrements BL :", [bl.qty for bl in record.bl_many_ids])
+
+            # Assigner la somme au champ cargo_weight
+            record.cargo_weight = total_qty
+
     @api.depends('sale_ids')
     def compute_sales_ids(self):
         for record in self:
@@ -92,7 +110,7 @@ class FolderTransitBL(models.Model):
     customer_id = fields.Many2one(
         'res.partner',
         string='Client',
-        domain=[('customer', '=', True)],
+        domain=[('customer_rank', '=', True)],
         tracking=True
     )
     product_id = fields.Many2one(
