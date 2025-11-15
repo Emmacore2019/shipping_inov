@@ -1,45 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
          <record id="stages_shipping_new" model="stages.transit">
             <field name="name">AVANT L'ARRIVEE DU NAVIRE</field>
             <field name="number">10</field>
             <field name="stages">ship</field>
         </record>
          <record id="stages_shipping_sejour" model="stages.transit">
-            <field name="name">PENDANT LE SEJOUR DU NAVIRE</field>
+            <field name="name">LORS DE L’ARRIVEE DU NAVIRE AU MOUILLAGE DU PORT</field>
             <field name="number">20</field>
             <field name="stages">ship</field>
         </record>
          <record id="stages_shipping_depart" model="stages.transit">
-            <field name="name">APRES LE DEPART DU NAVIRE</field>
+            <field name="name">LORS DE L’ACCOSTAGE DU NAVIRE A QUAI</field>
             <field name="number">30</field>
             <field name="stages">ship</field>
         </record>
          <record id="stages_shpipping_bord" model="stages.transit">
-            <field name="name">TRAVAUX A BORD</field>
+            <field name="name">LORS DU DEPART DU NAVIRE</field>
             <field name="number">40</field>
-            <field name="stages">ship</field>
-        </record>
-         <record id="stages_shipping_shore" model="stages.transit">
-            <field name="name">SHORE PASS</field>
-            <field name="number">50</field>
-            <field name="stages">ship</field>
-        </record>
-         <record id="stages_shipping_crew" model="stages.transit">
-            <field name="name">CREW CHANGE</field>
-            <field name="number">60</field>
-            <field name="stages">ship</field>
-        </record>
-         <record id="stages_shipping_illness" model="stages.transit">
-            <field name="name">MALADE ET ACCIDENTE</field>
-            <field name="number">70</field>
-            <field name="stages">ship</field>
-        </record>
-         <record id="stages_shipping_clandestin" model="stages.transit">
-            <field name="name">CLANDESTIN A BORD APRES LE DEPART DU NAVIRE</field>
-            <field name="number">80</field>
             <field name="stages">ship</field>
         </record>
     </data>

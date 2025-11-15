@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="analytic_plan_shippings" model="account.analytic.plan">
+        <field name="name">SHIPPING</field>
+        <field name="default_applicability">optional</field>
+    </record>
+    <record id="analytic_plan_transit" model="account.analytic.plan">
+        <field name="name">Dedouanement</field>
+        <field name="default_applicability">optional</field>
+    </record>
+    <record id="analytic_plan_acconnages" model="account.analytic.plan">
+        <field name="name">Acconnage</field>
+        <field name="default_applicability">optional</field>
+    </record>
+</odoo>

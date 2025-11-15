@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extension du formulaire du dossier transit pour ajouter les champs financiers shipping -->
+        <record id="view_transit_folder_shipping_financial" model="ir.ui.view">
+            <field name="name">transit.folder.shipping.financial</field>
+            <field name="model">folder.transit</field>
+            <field name="inherit_id" ref="inov_transit.transit_folder_form_form"/>
+            <field name="arch" type="xml">
+                
+                <!-- Web Ribbons pour les alertes financières -->
+                <xpath expr="//sheet" position="before">
+                    <!-- Ribbon critique: dépenses dépassent l'avance -->
+                    <div class="ribbon ribbon-top-right" 
+                         invisible="stages != 'ship' or advance_consumption_status != 'critical'">
+                        <span class="bg-danger">⚠️ CRITIQUE: Avance Dépassée!</span>
+                    </div>
+                    
+                    <!-- Ribbon warning: avance consommée à 80% -->
+                    <div class="ribbon ribbon-top-right" 
+                         invisible="stages != 'ship' or advance_consumption_status != 'warning'">
+                        <span class="bg-warning">⚠️ ATTENTION: Avance à 80%</span>
+                    </div>
+                    
+                    <!-- Ribbon info: statut ready for final invoice - Visible pour les comptables -->
+                    <div class="ribbon ribbon-top-right" 
+                         invisible="stages != 'ship'"
+                         groups="account.group_account_user">
+                        <span class="bg-success">✅ PRÊT: Proforma Définitive</span>
+                    </div>
+                </xpath>
+
+                <!-- Ajout du bouton de proforma définitive dans le header -->
+                <xpath expr="//button[@name='activity_scheduler']" position="after">
+                    <button name="action_compute_shipping_grid" 
+                            type="object" 
+                            string="Compute Port Grid" 
+                            class="btn-secondary"
+                            invisible="stages != 'ship'"
+                            icon="fa-calculator"
+                            help="Calculate port charges grid based on vessel data"/>
+                    <button name="action_create_grid_proforma" 
+                            type="object" 
+                            string="Generate Proforma from Grid" 
+                            class="btn-primary"
+                            invisible="stages != 'ship'"
+                            icon="fa-file-text"
+                            help="Create proforma invoice from port charges grid"/>
+                    <button name="action_create_final_invoice" 
+                            type="object" 
+                            string="PROFORMA DEFINITVE" 
+                            class="oe_highlight btn-primary"
+                            invisible="stages != 'ship'"
+                            groups="account.group_account_user"
+                            confirm="Voulez-vous générer la proforma définitive avec les dépenses réelles?"
+                            icon="fa-file-text-o"/>
+                </xpath>
+
+                <!-- Smart button pour les proformas -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" 
+                            type="object" 
+                            name="act_folder_transit_2_sale_order" 
+                            icon="fa-file-text-o"
+                            invisible="stages != 'ship' or sales_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="sales_count"/>
+                            </span>
+                            <span class="o_stat_text">Proformas</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <!-- Section financière shipping après les informations de navire -->
+                <xpath expr="//group[@name='folder_ship']" position="after">
+                    <group name="shipping_financial" string="Suivi Financier Shipping" 
+                           invisible="stages != 'ship'">
+                        
+                        <!-- Première ligne: Montants principaux -->
+                        <group string="Montants Proforma et Avances">
+                            <field name="proforma_total_amount" widget="monetary" readonly="1"/>
+                            <field name="advance_total_received" widget="monetary" readonly="1"/>
+                        </group>
+                        
+                        <group string="Dépenses et Soldes">
+                            <field name="expenses_total_amount" widget="monetary" readonly="1"/>
+                            <field name="advance_remaining" widget="monetary" readonly="1" 
+                                   decoration-danger="advance_remaining &lt; 0"
+                                   decoration-warning="advance_remaining &lt; (proforma_total_amount * 0.1)"
+                                   decoration-success="advance_remaining &gt; 0"/>
+                        </group>
+                        
+                        <!-- Deuxième ligne: Statuts et solde final -->
+                        <group string="Statuts Financiers">
+                            <field name="advance_consumption_status" readonly="1"
+                                   decoration-success="advance_consumption_status == 'available'"
+                                   decoration-warning="advance_consumption_status == 'warning'"
+                                   decoration-danger="advance_consumption_status in ('critical', 'exhausted')"/>
+                            <field name="shipping_financial_status" readonly="1"/>
+                        </group>
+                        
+                        <group string="Solde et Progression">
+                            <field name="final_balance" widget="monetary" readonly="1"
+                                   decoration-success="final_balance &gt; 0"
+                                   decoration-info="final_balance == 0"
+                                   decoration-danger="final_balance &lt; 0"/>
+                            <field name="advance_consumption_progress" string="Consommation Avance" widget="progressbar" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        
+                        <group string="Paramètres Tarification">
+                            <field name="exchange_rate_eur" 
+                                   string="Taux EUR → XAF"
+                                   widget="monetary"
+                                   decoration-info="exchange_rate_eur != 655.96"
+                                   help="Modifiable : Taux de change pour conversion des tarifs EUR (codes 1.14, 1.15, 1.16)"/>
+                            <div class="text-muted">
+                                <small><i class="fa fa-info-circle"></i> Défaut: 655.96 XAF/EUR (BEAC)</small>
+                            </div>
+                        </group>
+                        
+                    </group>
+                </xpath>
+
+                <!-- Ajout d'un onglet détaillé pour le suivi financier -->
+                <xpath expr="//page[@name='expense_lines']" position="after">
+                    
+                    <!-- Onglet pour les variables de calcul port charges -->
+                    <page name="port_charges_variables" 
+                          string="Variables Port Charges" 
+                          invisible="stages != 'ship'"
+                          groups="account.group_account_user">
+                        
+                        <group>
+                            <group string="Variables Pilotage et Mouvements">
+                                <field name="nb_pilotage_entry"/>
+                                <field name="nb_pilotage_out"/>
+                                <field name="nb_pilotage_entry_offshore"/>
+                                <field name="nb_pilotage_out_night_offshore"/>
+                            </group>
+                            
+                            <group string="Variables Immobilisation (heures)">
+                                <field name="immobilisation_in_night_hours"/>
+                                <field name="immobilisation_special_hours"/>
+                                <field name="security_night_hours"/>
+                            </group>
+                            
+                            <group string="Variables Navire et Cargaison">
+                                <field name="vessel_tonnage" readonly="1"/>
+                                <field name="cargo_weight_mt"/>
+                                <field name="ship_stay_days"/>
+                                <field name="nb_calls"/>
+                            </group>
+                            
+                            <group string="Variables Amarrage et Services">
+                                <field name="mooring_total_hours"/>
+                                <field name="extra_hours_over_36" readonly="1"/>
+                                <field name="nb_customs_supervision_days"/>
+                            </group>
+                            
+                            <group string="Taux de Change et Conversions">
+                                <field name="exchange_rate_eur" 
+                                       widget="monetary" 
+                                       options="{'currency_field': 'currency_id'}"
+                                       decoration-info="exchange_rate_eur != 655.96"
+                                       help="Taux de change EUR vers XAF pour conversion automatique des tarifs EUR"/>
+                                <div class="alert alert-info mt8" role="alert">
+                                    <i class="fa fa-info-circle"></i>
+                                    <strong> Codes EUR affectés:</strong> 1.14 (Amarrage), 1.15 (Heures sup.), 1.16 (Traffic Dues)
+                                </div>
+                            </group>
+                            
+                            <group string="Variables Visites et Transports">
+                                <field name="nb_sanitation_visits"/>
+                                <field name="nb_port_health_visits"/>
+                                <field name="nb_pilot_boat_trips"/>
+                                <field name="nb_nuits_pilot"/>
+                                <field name="nb_nuits_port_health"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Actions de Calcul"/>
+                        <div class="oe_button_box">
+                            <button name="action_compute_shipping_grid" 
+                                    type="object" 
+                                    string="🧮 Calculer la Grille" 
+                                    class="oe_highlight"
+                                    help="Recalcule la grille de tarification selon les variables saisies"/>
+                        </div>
+                        
+                    </page>
+                    
+                    <!-- Onglet pour la grille de tarification calculée -->
+                    <page name="shipping_charges_grid" 
+                          string="Grille Port Charges" 
+                          invisible="stages != 'ship'">
+                        
+                        <field name="shipping_charge_line_ids" readonly="0">
+                            <tree editable="bottom" decoration-info="category == 'port_charges'" 
+                                  decoration-warning="category == 'mooring'" 
+                                  decoration-muted="category == 'other_outlays'">
+                                <field name="category" readonly="1"/>
+                                <field name="code" readonly="1"/>
+                                <field name="description" readonly="1"/>
+                                <field name="calc_mode" readonly="1"/>
+                                <field name="qty" sum="Total Qty"/>
+                                <field name="price_unit" widget="monetary"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount" widget="monetary" sum="Total Amount"/>
+                            </tree>
+                        </field>
+                        
+                        <group>
+                            <group string="Totaux par Catégorie">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>1/ OUTLAYS / PORT CHARGES:</strong> Pilotage, immobilisation, royalties
+                                </div>
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>2/ OUTLAYS / TERMINAL COSTS:</strong> Amarrage, traffic dues
+                                </div>
+                                <div class="alert alert-secondary" role="alert">
+                                    <strong>3/ OUTLAYS / OTHER EXPENSES:</strong> Douanes, transports, inspections
+                                </div>
+                                <div class="alert alert-success" role="alert">
+                                    <strong>SERVICES:</strong> Frais d'agence (Agency Fees)
+                                </div>
+                            </group>
+                            
+                            <group string="Actions Proforma">
+                                <button name="action_create_grid_proforma" 
+                                        type="object" 
+                                        string="📋 Générer Proforma" 
+                                        class="btn-primary"
+                                        help="Créer une proforma à partir de cette grille"/>
+                            </group>
+                        </group>
+                        
+                    </page>
+
+                    <page name="shipping_financial_detail" 
+                          string="Détail Financier Shipping" 
+                          invisible="stages != 'ship'"
+                          groups="account.group_account_user">
+                        
+                        <group>
+                            <group string="Résumé Financier Global">
+                                <label for="proforma_total_amount" string="Montant Total Proforma:"/>
+                                <div class="o_row">
+                                    <field name="proforma_total_amount" widget="monetary" readonly="1"/>
+                                    <span class="ml8"><field name="currency_id" readonly="1"/></span>
+                                </div>
+                                
+                                <label for="advance_total_received" string="Total Avances Reçues:"/>
+                                <div class="o_row">
+                                    <field name="advance_total_received" widget="monetary" readonly="1"/>
+                                    <span class="ml8"><field name="currency_id" readonly="1"/></span>
+                                </div>
+                                
+                                <label for="expenses_total_amount" string="Total Dépenses Engagées:"/>
+                                <div class="o_row">
+                                    <field name="expenses_total_amount" widget="monetary" readonly="1"/>
+                                    <span class="ml8"><field name="currency_id" readonly="1"/></span>
+                                </div>
+                                
+                                <separator string="Soldes Calculés"/>
+                                
+                                <label for="advance_remaining" string="Solde Avance Disponible:"/>
+                                <div class="o_row">
+                                    <field name="advance_remaining" widget="monetary" readonly="1"
+                                           decoration-danger="advance_remaining &lt; 0"
+                                           decoration-warning="advance_remaining &lt; (proforma_total_amount * 0.1)"
+                                           decoration-success="advance_remaining &gt; 0"/>
+                                    <span class="ml8"><field name="currency_id" readonly="1"/></span>
+                                </div>
+                                
+                                <label for="final_balance" string="Solde Final à Facturer:"/>
+                                <div class="o_row">
+                                    <field name="final_balance" widget="monetary" readonly="1"
+                                           decoration-success="final_balance &gt; 0"
+                                           decoration-info="final_balance == 0"
+                                           decoration-danger="final_balance &lt; 0"/>
+                                    <span class="ml8"><field name="currency_id" readonly="1"/></span>
+                                </div>
+                            </group>
+                            
+                            <group string="Indicateurs de Suivi">
+                                <field name="advance_consumption_status" readonly="1"
+                                       widget="badge"
+                                       decoration-success="advance_consumption_status == 'available'"
+                                       decoration-warning="advance_consumption_status == 'warning'"
+                                       decoration-danger="advance_consumption_status in ('critical', 'exhausted')"/>
+                                
+                                <field name="shipping_financial_status" readonly="1" widget="badge"/>
+                            </group>
+                        </group>
+                        
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

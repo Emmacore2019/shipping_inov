@@ -34,21 +34,15 @@
         <field name="model">folder.transit</field>
         <field name="inherit_id" ref="inov_transit.transit_folder_form_form" />
         <field name="arch" type="xml">
-          <xpath expr="//button[@name='toggle_active']" position="before">
-              <field name="sale_ids" invisible="1"/>
-              <button type="object"
-                name="act_folder_transit_2_sale_order"
-                icon="fa-dollar"
-                invisible="stages != 'ship'">
-                <field name="sales_count" widget="statinfo" string="Etablir une Proforma" />
-
-              </button>
-          </xpath>
+         
           <xpath expr="//group[@name='folder_transit']" position="after">
               <group name="folder_ship" invisible="stages != 'ship'">
-              <group string="Type de Dossier">
-                <field name="type_op" widget="radio"/>
-              </group>
+                <group string="Type de Dossier">
+                  <field name="type_op" widget="radio"/>
+                </group>
+                 <group>
+                    <field name="transp_op" widget="radio"/>
+                  </group>
               <group>
                 <field name="transpo_type" widget="radio"/>
               </group>
@@ -82,17 +76,52 @@
             </group>
           </xpath>
           <xpath expr="//page[@name='packages']" position="before">
-
-<!-- 
-                <page string="Ligne de commande">
-                  <field name="order_line_ids">
-                        <tree editable="bottom">
-                            <field name="product_id"/>
-                            <field name="product_uom_qty"/>
-                            <field name="price_unit"/>
-                        </tree>
-                  </field>
-                </page> -->
+            <page string="Port Charges" name="port_charges" invisible="stages != 'ship'">
+              <group>
+                <group string="Totals" col="4">
+                  <field name="shipping_outlays_total" widget="monetary" readonly="1"/>
+                  <field name="shipping_services_total" widget="monetary" readonly="1"/>
+                </group>
+              </group>
+              <group>
+                <group string="Calculation Parameters" col="2">
+                  <field name="mooring_hours"/>
+                  <field name="nb_pilot_entry"/>
+                  <field name="nb_pilot_bonus_in"/>
+                  <field name="nb_pilot_out_night"/>
+                  <field name="nb_pilot_bonus_out"/>
+                  <field name="nb_customs_supervision_days"/>
+                  <field name="nb_customs_boarding"/>
+                  <field name="nb_trips_piloting"/>
+                  <field name="nb_trips_health"/>
+                  <field name="nb_port_health_inspection"/>
+                </group>
+                <group string="Additional Parameters" col="2">
+                  <field name="nb_pilot_immobilization_in"/>
+                  <field name="nb_pilot_immobilization_bonus"/>
+                  <field name="nb_pilot_immobilization_night"/>
+                  <field name="nb_pilot_immobilization_night_bonus"/>
+                  <field name="nb_security_watch_bonus"/>
+                  <field name="nb_trips_sanitation"/>
+                  <field name="nb_accommodation_pilot"/>
+                  <field name="nb_accommodation_health"/>
+                </group>
+              </group>
+              <field name="shipping_charge_ids" 
+                     context="{'default_folder_id': active_id}"
+                     readonly="1">
+                <tree string="Port Charges Grid" decoration-bf="category != context.get('prev_category')">
+                  <field name="category" invisible="1"/>
+                  <field name="code"/>
+                  <field name="description"/>
+                  <field name="calc_mode"/>
+                  <field name="qty"/>
+                  <field name="price_unit" widget="monetary"/>
+                  <field name="amount" widget="monetary" sum="Total"/>
+                  <field name="currency_id" invisible="1"/>
+                </tree>
+              </field>
+            </page>
             <page string="BL">
               <field name="bl_many_ids">
                 <tree string="BLs" editable="bottom">
@@ -106,70 +135,12 @@
               </field>
             </page>
 
-<!--            <page string="1/ Outlays /PORT CHARGES">-->
-<!--                <group string="1/ Outlays /PORT CHARGES">-->
-<!--                     <field name="pilotage_entry"/>-->
-<!--                     <field name="pilot_bonus"/>-->
-<!--                     <field name="pilot_night"/>-->
-<!--                     <field name="pilot_bonus_night"/>-->
-<!--                     <field name="pilot_immo_in_night"/>-->
-<!--                     <field name="bonus_pilot_immo_in_night"/>-->
-<!--                     <field name="pilot_immo_night_week"/>-->
-<!--                     <field name="bonus_pilot_immo_night_week"/>-->
-<!--                     <field name="security_watch"/>-->
-<!--                     <field name="ship_stay"/>-->
-<!--                     <field name="royalty_stay"/>-->
-<!--                     <field name="port_royalty"/>-->
-<!--                     <field name="environmental_royalty"/>-->
-<!--                </group>-->
-<!--            </page>-->
-
-<!--            <page string="2/ Outlays / Terminal costs / MOORING">-->
-<!--                <group string="Outlays / Terminal costs / MOORING">-->
-<!--                     <field name="mooring"/>-->
-<!--                     <field name="per_each"/>-->
-<!--                     <field name="traffic_due"/>-->
-<!--                </group>-->
-<!--            </page>-->
-
-<!--            <page string="3/ Outlays / OTHER PORT EXPENSE">-->
-<!--                <group string="3/ Outlays / OTHER PORT EXPENSE">-->
-<!--                     <field name="customs_boarding"/>-->
-<!--                     <field name="piloting_thro_trip"/>-->
-<!--                     <field name="trans_ship_sanitation"/>-->
-<!--                     <field name="piloting_thro_night"/>-->
-<!--                     <field name="trans_piloting_thro_trip"/>-->
-<!--                     <field name="trans_immi_thro_trip"/>-->
-<!--                     <field name="customs_supervision"/>-->
-<!--                     <field name="accomodation_trans_pilot"/>-->
-<!--                     <field name="port_health"/>-->
-<!--                     <field name="accomodation_trans_port_health"/>-->
-<!--                     <field name="immi_formality"/>-->
-<!--                </group>-->
-<!--            </page>-->
-
-
-<!--            <page string="Services">-->
-<!--                <group string="Services">-->
-<!--                     <field name="agency_fees"/>-->
-<!--                </group>-->
-<!--            </page>-->
 
 
           </xpath>
         </field>
       </record>
 
-        <record id="view_order_form_inherit_euro" model="ir.ui.view">
-            <field name="name">sale.order.form.inherit.euro</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='price_unit']" position="after">
-                    <field name="price_usd_subtotal" string="Montant en USD" />
-                </xpath>
-            </field>
-        </record>
      <record id="action_shipping_folder" model="ir.actions.act_window">
         <field name="name">Ouverture du Dossier Shipping</field>
         <field name="type">ir.actions.act_window</field>
@@ -177,8 +148,10 @@
         <field name="view_mode">tree,kanban,calendar,form</field>
         <field name="domain">[('stages','=','ship')]</field>
         <field name="search_view_id" ref="inov_transit.view_transit_folder_filter"/>
+        
         <field name="context">{
           'search_default_my_transit_folders_shipping':1,
+            'search_default_my_activities_my':1,
           'default_stages':'ship'
 
         }</field>
@@ -191,6 +164,44 @@
             </p>
         </field>
       </record>
+      
+      <!-- Vue Quick Create pour Shipping -->
+      <!-- <record id="folder_shipping_quick_create" model="ir.ui.view">
+        <field name="name">folder.transit.shipping.quick.create</field>
+        <field name="model">folder.transit</field>
+        <field name="arch" type="xml">
+          <form string="Création Rapide - Dossier Shipping">
+            <group>
+              <group>
+                <field name="name" placeholder="ex: SHIP-2025-001"/>
+                <field name="customer_id" string="Affreteur" 
+                       context="{'default_customer': 1, 'search_default_customer': 1, 'default_supplier': 0, 'default_is_company': True}"
+                       options="{'always_reload': True}"/>
+                <field name="vessel" string="Navire" placeholder="Nom du navire..."/>
+              </group>
+              <group>
+                <field name="date_arrival" string="Date d'Arrivée"/>
+                <field name="user_id" string="Responsable" groups="base.group_user"/>
+                <field name="stages" invisible="1"/>
+              </group>
+            </group>
+          </form>
+        </field>
+      </record> -->
+      
+      <!-- Vue Kanban Shipping avec Quick Create -->
+      <!-- <record id="folder_shipping_kanban" model="ir.ui.view">
+        <field name="name">folder.transit.shipping.kanban</field>
+        <field name="model">folder.transit</field>
+        <field name="inherit_id" ref="inov_transit.transit_folder_kanban_view_bca"/>
+        <field name="mode">primary</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+          <kanban position="attributes">
+            <attribute name="quick_create_view">inov_shipping.folder_shipping_quick_create</attribute>
+          </kanban>
+        </field>
+      </record> -->
       <menuitem
             name="Dossier Shipping"
             action="action_shipping_folder"
@@ -200,13 +211,14 @@
        <record id="action_activity_shipping_view" model="ir.actions.act_window">
           <field name="name">Activite Shipping</field>
           <field name="res_model">folder.transit</field>
-          <field name="view_mode">activity</field>
-          <field name="view_id" ref="inov_transit.view_transit_folder_filter"/>
+          <field name="view_mode">kanban,form</field>
           <field name="context">{
-                'search_default_my_transit_folders_shipping':1
+                'search_default_my_transit_folders_shipping':1,
+                'search_default_my_activities_my':1,
+                 'default_stages':'ship'
+
               }</field>
         </record>
-
     <menuitem
             name="Suivi Dossier Shipping"
             action="action_activity_shipping_view"

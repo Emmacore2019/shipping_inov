@@ -1,0 +1,234 @@
+<odoo>
+    {
+  "inov_shipping": {
+    "report_folder_transit": "inov_shipping.report_folder_transit"
+  }
+}
+
+
+    <record id="sale_order_template_douala_port" model="sale.order.template">
+      <field name="name">DOUALA PORT</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+
+    <!-- Section 1: PORT CHARGES -->
+    <record id="sale_order_template_section1" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="display_type" eval="'line_section'"/>
+        <field name="name">1/Outlays/PORT CHARGES</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="sale_order_template_line1" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_pilotage"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">11</field>
+    </record>
+    <record id="sale_order_template_line2" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_quay"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">12</field>
+    </record>
+    <record id="sale_order_template_line3" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_pilotage_overtime"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">13</field>
+    </record>
+    <record id="sale_order_template_line4" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_pilotage_out"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">14</field>
+    </record>
+    <record id="sale_order_template_line5" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_pilotage_bonus"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">15</field>
+    </record>
+    <record id="sale_order_template_line6" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_chanel"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">16</field>
+    </record>
+    <record id="sale_order_template_line7" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_tug"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">17</field>
+    </record>
+    <record id="sale_order_template_line8" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_line"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">18</field>
+    </record>
+    <record id="sale_order_template_line9" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_overt"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">19</field>
+    </record>
+    <record id="sale_order_template_line10" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_royal"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="sale_order_template_line11" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_vessel"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">21</field>
+    </record>
+    <record id="sale_order_template_line12" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_tax"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">22</field>
+    </record>
+    <record id="sale_order_template_line13" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_code"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">23</field>
+    </record>
+
+    <!-- Section 2: TERMINAL COSTS/MOORING -->
+    <record id="sale_order_template_section2" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="display_type" eval="'line_section'"/>
+        <field name="name">2/Outlays/Terminal costs/ MOORING</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="sale_order_template_line15" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_customs_watch"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">31</field>
+    </record>
+    <record id="sale_order_template_line16" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_navy"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">32</field>
+    </record>
+    <record id="sale_order_template_line17" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_health"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">33</field>
+    </record>
+
+    <!-- Section 3: OTHER PORT EXPENSE -->
+    <record id="sale_order_template_section3" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="display_type" eval="'line_section'"/>
+        <field name="name">3/Outlays/OTHER PORT EXPENSE</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="sale_order_template_line14" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_customs"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">41</field>
+    </record>
+    <record id="sale_order_template_line18" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_carservices"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">42</field>
+    </record>
+    <record id="sale_order_template_line19" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_vhf"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">43</field>
+    </record>
+    <record id="sale_order_template_line20" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_sanitary"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">44</field>
+    </record>
+    <record id="sale_order_template_line21" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_in/out"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">45</field>
+    </record>
+    <record id="sale_order_template_line22" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_ucam"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">46</field>
+    </record>
+    <record id="sale_order_template_line23" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_pilotage_royaltie"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">47</field>
+    </record>
+    <record id="sale_order_template_line24" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_miscellaneous"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">48</field>
+    </record>
+    <record id="sale_order_template_line25" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_cholera"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">49</field>
+    </record>
+    <record id="sale_order_template_line26" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_lumpsun"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="sale_order_template_line27" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_vat"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">51</field>
+    </record>
+
+    <!-- Section 4: SERVICES -->
+    <record id="sale_order_template_section4" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="display_type" eval="'line_section'"/>
+        <field name="name">SERVICES</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="sale_order_template_line28" model="sale.order.template.line">
+        <field name="sale_order_template_id" ref="sale_order_template_douala_port"/>
+        <field name="product_id" ref="inov_shipping.product_product_vat"/>
+        <field name="product_uom_qty">1</field>
+        <field name="sequence">61</field>
+    </record>
+
+
+<!--      <record id="sale_order_template_view_inherit_form" model="ir.ui.view">-->
+<!--          <field name="name">sale.order.template.form</field>-->
+<!--          <field name="model">sale.order.template</field>-->
+<!--          <field name="inherit_id" ref="sale_management.sale_order_template_view_form" />-->
+<!--          <field name="arch" type="xml">-->
+<!--              <xpath expr="//div[@id='number_of_days']" position="after">-->
+<!--                    <label for="is_proforma" string="Devis Proforma"/>-->
+<!--                    <div>-->
+<!--                        <field name="is_proforma"/>-->
+<!--                    </div>-->
+<!--              </xpath>-->
+
+<!--          </field>-->
+<!--      </record>-->
+</odoo>

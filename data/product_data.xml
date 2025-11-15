@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="product_category_debours" model="product.category">
+            <field name="name">Debours</field>
+        </record>
+        <record id="product_category_services" model="product.category">
+            <field name="name">Services</field>
+        </record>
           <record id="product_product_pilotage" model="product.product">
             <field name="name">PILOTAGE Entry, IN Offshore> 70.001TJB</field>
             <field name="list_price">0.06</field>
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">PILOTAGES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
           </record>
 
         <record id="product_product_quay" model="product.product">
@@ -16,7 +22,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">QDUES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
         <record id="product_product_ops" model="product.product">
@@ -25,7 +31,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">WHARFAGE</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
         <record id="product_product_bonus" model="product.product">
@@ -34,7 +40,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">PILBONUS</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
         <record id="product_product_pilotage_bonus" model="product.product">
@@ -43,7 +49,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">PILOTAGEBONUS</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_chanel" model="product.product">
@@ -52,7 +58,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CHDUES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_tug" model="product.product">
@@ -61,7 +67,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">TUGFEES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_line" model="product.product">
@@ -70,7 +76,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">LINEHANDLING</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
          <record id="product_product_overt" model="product.product">
             <field name="name">Security Watch Bonus --- Night time</field>
@@ -78,7 +84,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">OVERT</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_royal" model="product.product">
@@ -87,7 +93,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">HDLRY</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_vessel" model="product.product">
@@ -96,7 +102,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">SECUVESSEL</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_tax" model="product.product">
@@ -105,7 +111,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">ENVTAX</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_code" model="product.product">
@@ -114,7 +120,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">ISPSCODE</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_customs" model="product.product">
@@ -123,7 +129,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CUSREGIST</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
         <record id="product_product_customs_watch" model="product.product">
@@ -132,7 +138,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CUSTOMW</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
 
@@ -142,7 +148,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">NAVYFEES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_health" model="product.product">
@@ -151,7 +157,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">HEA/IMM/POL</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
          <record id="product_product_carservices" model="product.product">
             <field name="name">Piloting thro and fro ( TRIP)</field>
@@ -159,7 +165,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CARSERVICES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_vhf" model="product.product">
@@ -168,7 +174,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">VHF</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_sanitary" model="product.product">
@@ -177,7 +183,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">SANITARY/VESSEL</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_in/out" model="product.product">
@@ -186,7 +192,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CLEARANCE/INOUT</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_ucam" model="product.product">
@@ -195,7 +201,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">GUCE</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_pilotage_royaltie" model="product.product">
@@ -204,7 +210,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">PILOTAGES</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
          <record id="product_product_miscellaneous" model="product.product">
@@ -213,7 +219,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">MISCS</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
          <record id="product_product_cholera" model="product.product">
             <field name="name">Port health Inspection (Free Pratique granted)</field>
@@ -221,7 +227,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">CHL/SANIT</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
         <record id="product_product_lumpsun" model="product.product">
             <field name="name">Accomodation and Transportation to the Port - Port health officer (Thro and fro)</field>
@@ -229,7 +235,7 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">LUMPSUN</field>
-            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
         <record id="product_product_vat" model="product.product">
@@ -238,19 +244,265 @@
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
             <field name="default_code">VT</field>
-            <field name="categ_id" ref="product.product_category_all"/>
-
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
-         <record id="product_product_vat" model="product.product">
+         <record id="product_product_agency_fees" model="product.product">
             <field name="name">Agency Fees (ALL IN) LUMPSUM</field>
             <field name="list_price">0.1925</field>
             <field name="standard_price">1.0</field>
             <field name="type">service</field>
-            <field name="default_code">VT</field>
-            <field name="categ_id" ref="product.product_category_all"/>
-
+            <field name="default_code">AGFE</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
         </record>
 
+         <record id="product_product_pilotage_out" model="product.product">
+            <field name="name"> PILOTAGE Departure, Out</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">PILOUT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_pilotage_overtime" model="product.product">
+            <field name="name">PILOTAGE Overtime surcharge 50% IN (night and weekend mvt)</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">PILOT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+
+
+         <record id="product_product_pilotage_commercial" model="product.product">
+            <field name="name">Commercial Operation/Wharfage dues per tonne of cargo loaded/offloaded</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+
+         <record id="product_product_pilotage_channel" model="product.product">
+            <field name="name">Channel dues (20000-30000 M3)</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Berthing_dues" model="product.product">
+            <field name="name">Berthing dues/M3/daily C/J &gt; 1,8R</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_pilot_bonus" model="product.product">
+            <field name="name">Pilot Bonus over/>3000 TJB</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_port_royaltie" model="product.product">
+            <field name="name">Port Royalties /Redevance consignation classe </field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_environnemental_royaltie" model="product.product">
+            <field name="name">Environmental Royalties /REDEVANCE ENVIR Petrolier</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_pilotage_overtime_out" model="product.product">
+            <field name="name">PILOTAGE Overtime surcharge 50% OUT (night and weekend mvt)</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_pilotage_safety_dues" model="product.product">
+            <field name="name">Safety dues /REDEVANCE SURET ISPS 8% FACT D'ESCALE</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_informatique_royaltie" model="product.product">
+            <field name="name">Informatique Royalties /REDEVANCE Informatique 1%</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_hygiene_and_sanitation" model="product.product">
+            <field name="name">Hygiene and sanitation Royalties /REDEVANCE hygiene et salubrite 1%</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_towage_tugboat" model="product.product">
+            <field name="name">TOWAGE In / Out - Two tugboat</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_mooring_out" model="product.product">
+            <field name="name">MOORING/ Line Handling / hr / In and Out</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">MOOR</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Towage_Tugging" model="product.product">
+            <field name="name">Towage /Tugging overtime Saturday, Public holidays (+50% carried out 6pm and
+6am) </field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_mooring_carried" model="product.product">
+            <field name="name"> MOORING/ Line Handling (overtime Saturday, Public holidays +50% carried
+out 6pm and 6am)</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Tugboat_day" model="product.product">
+            <field name="name">Tugboat watch keeping during day</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Tugboat_holiday" model="product.product">
+            <field name="name">Tugboat watch keeping during Weekend and Public holiday</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_auto_pompe" model="product.product">
+            <field name="name"> Auto pompe watch keeping onboard </field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_SAIGE" model="product.product">
+            <field name="name">SAIGE ( Cargo discharging royalty)</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Custom_Boarding" model="product.product">
+            <field name="name"> Custom Boarding in and out </field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Custom_authority" model="product.product">
+            <field name="name">Custom authority to offload per day</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Sanitary_Inspection" model="product.product">
+            <field name="name">Sanitary Inspection</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Merchant_Navy" model="product.product">
+            <field name="name">Merchant Navy</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_UCAM_Call" model="product.product">
+            <field name="name">UCAM per Call</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Offshore_Inspection" model="product.product">
+            <field name="name">Offshore Inspection by Port Health</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
+
+         <record id="product_product_Launch_boat" model="product.product">
+            <field name="name">Launch boat transportation ( Port Health and Sampling team for Cargo samples)
++ standby time - ALL IN</field>
+            <field name="list_price">0.1925</field>
+            <field name="standard_price">1.0</field>
+            <field name="type">service</field>
+            <field name="default_code">VT</field>
+            <field name="categ_id" ref="inov_shipping.product_category_debours"/>
+        </record>
     </data>
 </odoo>

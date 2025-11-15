@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api,_
 from datetime import datetime, timedelta, date
 from ast import literal_eval
 from odoo.exceptions import ValidationError
@@ -63,81 +63,7 @@ class SaleTransit(models.Model):
         else:
             return 1.0
 
-    # @api.onchange('sale_order_template_id')
-    # def onchange_sale_order_template_id(self):
-    #     # Vérifier si le modèle de commande est sélectionné
-    #     if not self.sale_order_template_id:
-    #         self.require_signature = self._get_default_require_signature()
-    #         self.require_payment = self._get_default_require_payment()
-    #         return
-
-    #     # Récupérer le modèle de commande avec le contexte de la langue du partenaire
-    #     template = self.sale_order_template_id.with_context(lang=self.partner_id.lang)
-
-    #     # Initialiser les lignes de commande
-    #     order_lines = [(5, 0, 0)]
-    #     for line in template.sale_order_template_line_ids:
-    #         # Calcul des données pour la ligne en fonction du changement de vaisseau
-    #         data = self._compute_line_data_for_vessel_change(line)
-
-    #         # Vérification que `data` est un dictionnaire avant de faire `.update()`
-    #         if isinstance(data, dict):
-    #             discount = 0
-    #             if self.pricelist_id:
-    #                 price = self.pricelist_id.with_context(uom=line.product_uom_id.id).get_product_price(line.product_id, 1, False)
-    #                 if self.pricelist_id.discount_policy == 'without_discount' and line.product_id.lst_price:
-    #                     discount = (line.product_id.lst_price - price) / line.product_id.lst_price * 100
-    #                     if discount < 0:
-    #                         discount = 0
-    #                     else:
-    #                         price = line.product_id.lst_price
-    #             else:
-    #                 price = line.product_id.lst_price
-
-    #             # Mise à jour des données de la ligne de commande
-    #             data.update({
-    #                 'price_unit': price,
-    #                 'discount': 100 - ((100 - discount) * (100 - line.discount) / 100),
-    #                 'product_uom_qty': line.product_uom_qty,
-    #                 'product_id': line.product_id.id,
-    #                 'product_uom': line.product_uom_id.id,
-    #                 'customer_lead': self._get_customer_lead(line.product_id.product_tmpl_id),
-    #             })
-
-    #             # Si une liste de prix est définie, ajouter les prix d'achat
-    #             if self.pricelist_id:
-    #                 data.update(self.env['sale.order.line']._get_purchase_price(
-    #                     self.pricelist_id, line.product_id, line.product_uom_id, fields.Date.context_today(self)))
-
-    #             # Ajouter la ligne de commande
-    #             order_lines.append((0, 0, data))
-    #         else:
-    #             # Gérer le cas où `data` n'est pas un dictionnaire
-    #             _logger.error("Expected 'data' to be a dictionary but got %s", type(data))
-    #             raise ValueError(f"Expected 'data' to be a dictionary, but got {type(data)}")
-
-    #     # Affectation des lignes de commande et des taxes
-    #     self.order_line = order_lines
-    #     self.order_line._compute_tax_id()
-
-    #     # Traitement des options du modèle de commande
-    #     option_lines = []
-    #     for option in template.sale_order_template_option_ids:
-    #         option_data = self._compute_option_data_for_template_change(option)
-    #         option_lines.append((0, 0, option_data))
-    #     self.sale_order_option_ids = option_lines
-
-    #     # Mise à jour de la date de validité
-    #     if template.number_of_days > 0:
-    #         self.validity_date = fields.Date.to_string(fields.Date.context_today(self) + timedelta(template.number_of_days))
-
-    #     # Mise à jour des champs signature et paiement
-    #     self.require_signature = template.require_signature
-    #     self.require_payment = template.require_payment
-
-    #     # Si le modèle a une note, l'affecter
-    #     if template.note:
-    #         self.note = template.note
+   
     def get_shipping_price(self):
 
         prod1=self.env.ref("inov_shipping.product_product_pilotage")
@@ -201,89 +127,92 @@ class SaleTransit(models.Model):
         volume = self.volume
         grt = self.weight_grt
         qty = self.vessel_qty
+        # Récupération du taux de change du dossier transit
+        exchange_rate = self.folder_id.exchange_rate_eur if self.folder_id else 655.96
+        
         if prod1 :
-            line1.price_unit = 0.063 * volume * 655.957
+            line1.price_unit = 0.063 * volume * exchange_rate
 
         if prod2 :
-            line2.price_unit = 0.0047 * volume * 655.957
+            line2.price_unit = 0.0047 * volume * exchange_rate
 
         if prod3 :
-            line3.price_unit = 0.063 * volume * 655.957
+            line3.price_unit = 0.063 * volume * exchange_rate
 
         if prod4 :
-            line4.price_unit = 0.0047 * volume * 655.957
+            line4.price_unit = 0.0047 * volume * exchange_rate
 
         if prod5 :
-            line5.price_unit = 87.6 * line5.product_uom_qty * 655.957
+            line5.price_unit = 87.6 * line5.product_uom_qty * exchange_rate
 
         if prod6 :
-            line6.price_unit = 30 * line6.product_uom_qty  * 655.957
+            line6.price_unit = 30 * line6.product_uom_qty  * exchange_rate
 
         if prod7 :
-            line7.price_unit = 87.6 * line7.product_uom_qty * 655.957
+            line7.price_unit = 87.6 * line7.product_uom_qty * exchange_rate
 
         if prod8 :
-            line8.price_unit = 30 * line8.product_uom_qty  * 655.957
+            line8.price_unit = 30 * line8.product_uom_qty  * exchange_rate
 
         if prod9 :
-            line9.price_unit = 51 * 655.957
+            line9.price_unit = 51 * exchange_rate
 
         if prod10 :
-            line10.price_unit = 0.015 * volume * 655.957
+            line10.price_unit = 0.015 * volume * exchange_rate
 
         if prod11 :
-            line11.price_unit = 0.014 * qty * 655.957
+            line11.price_unit = 0.014 * qty * exchange_rate
 
         if prod12 :
-            line12.price_unit = 0.079 * grt * 655.957
+            line12.price_unit = 0.079 * grt * exchange_rate
 
         if prod13 :
-            line13.price_unit = 182.94 * 655.957
+            line13.price_unit = 182.94 * exchange_rate
 
         if prod14 :
-            line14.price_unit = 0.063 * volume * 655.957
+            line14.price_unit = 0.063 * volume * exchange_rate
 
         if prod15 :
-            line15.price_unit = 0.063 * volume * 655.957
+            line15.price_unit = 0.063 * volume * exchange_rate
 
         if prod16 :
-            line16.price_unit = 0.063 * volume * 655.957
+            line16.price_unit = 0.063 * volume * exchange_rate
 
         if prod17 :
-            line17.price_unit = 0.063 * volume * 655.957
+            line17.price_unit = 0.063 * volume * exchange_rate
 
         if prod18 :
-            line18.price_unit = 0.063 * volume * 655.957
+            line18.price_unit = 0.063 * volume * exchange_rate
 
         if prod19 :
-            line19.price_unit = 0.063 * volume * 655.957
+            line19.price_unit = 0.063 * volume * exchange_rate
 
         if prod20 :
-            line20.price_unit = 0.063 * volume * 655.957
+            line20.price_unit = 0.063 * volume * exchange_rate
 
         if prod21 :
-            line21.price_unit = 0.063 * volume * 655.957
+            line21.price_unit = 0.063 * volume * exchange_rate
 
         if prod22 :
-            line22.price_unit = 0.063 * volume * 655.957
+            line22.price_unit = 0.063 * volume * exchange_rate
 
         if prod23 :
-            line23.price_unit = 0.063 * volume * 655.957
+            line23.price_unit = 0.063 * volume * exchange_rate
 
         if prod24:
-            line24.price_unit = 0.063 * volume * 655.957
+            line24.price_unit = 0.063 * volume * exchange_rate
 
         if prod25:
-            line25.price_unit = 0.063 * volume * 655.957
+            line25.price_unit = 0.063 * volume * exchange_rate
 
         if prod26:
-            line26.price_unit = 0.063 * volume * 655.957
+            line26.price_unit = 0.063 * volume * exchange_rate
 
         if prod27:
-            line27.price_unit = 0.063 * volume * 655.957
+            line27.price_unit = 0.063 * volume * exchange_rate
 
         if prod28:
-            line28.price_unit = 0.063 * volume * 655.957
+            line28.price_unit = 0.063 * volume * exchange_rate
 
         # if line1 and line2 and line3 and line4:
         #     line4.update({
@@ -310,7 +239,10 @@ class Saleorderline(models.Model):
     
     price_usd = fields.Float(
         string="Taux (Euro)",
-        digits='Product Price',default=655.957)
+        digits='Product Price',
+        compute='_compute_exchange_rate_from_folder',
+        store=True,
+        help="Taux de change EUR récupéré automatiquement du dossier transit")
     
     price_usd_subtotal = fields.Float(
         string="Montant (Euro) ",
@@ -322,10 +254,21 @@ class Saleorderline(models.Model):
         """
         Compute the amounts of the SO line.
         """
-        for line in self:price_usd_subtotal
+        for line in self:
             line.update({
-                '': line.price_subtotal / line.price_usd
+                'price_usd_subtotal': line.price_subtotal / line.price_usd if line.price_usd > 0 else 0.0
             })
+    
+    @api.depends('order_id.folder_id.exchange_rate_eur')
+    def _compute_exchange_rate_from_folder(self):
+        """
+        Récupère le taux de change EUR du dossier transit associé
+        """
+        for line in self:
+            if line.order_id and line.order_id.folder_id and line.order_id.folder_id.exchange_rate_eur:
+                line.price_usd = line.order_id.folder_id.exchange_rate_eur
+            else:
+                line.price_usd = 655.96  # Valeur par défaut si pas de dossier
 
     
     @api.constrains("price_usd")

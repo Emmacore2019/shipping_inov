@@ -1,3 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_fret_transit,fret.transit,model_fret_transit,,1,1,1,1
 access_folder_transit_bl,folder.transit.bl,model_folder_transit_bl,,1,1,1,1
+access_shipping_charge_item_user,shipping.charge.item user,model_shipping_charge_item,inov_transit.group_shipping_user,1,0,0,0
+access_shipping_charge_item_manager,shipping.charge.item manager,model_shipping_charge_item,inov_transit.group_shipping_manager,1,1,1,1
+access_shipping_charge_line_user,shipping.charge.line user,model_shipping_charge_line,inov_transit.group_shipping_user,1,1,1,0
+access_shipping_charge_line_manager,shipping.charge.line manager,model_shipping_charge_line,inov_transit.group_shipping_manager,1,1,1,1

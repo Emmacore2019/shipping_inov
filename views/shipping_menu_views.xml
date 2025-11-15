@@ -12,5 +12,18 @@
      <menuitem name="Rapports" id="menu_report_id" parent="menu_shipping_root_id" sequence="5" groups="inov_transit.group_shipping_manager"/>
     <menuitem name="Configuration" id="menu_shipping_configuration_id" parent="menu_shipping_root_id" sequence="6" />
 
+
+    <record id="action_task_checklist_shipping" model="ir.actions.act_window">
+    <field name="name">Analyse des tâches</field>
+    <field name="res_model">task.checklist</field>
+    <field name="view_mode">graph,pivot</field>
+     <field name="search_view_id" ref="inov_transit.view_task_checklist_analysis_search"/>
+     <field name="context">{
+        'search_default_current_year':1,
+        }</field>
+    <field name="domain">[('state', '=', 'ship')]</field>
+</record>
+
+<menuitem id="menu_task_checklist_shipping" name="Analyse des tâches" parent="inov_shipping.menu_report_id" action="action_task_checklist_shipping"/>
     </data>
 </odoo>
