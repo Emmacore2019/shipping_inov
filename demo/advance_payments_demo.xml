@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Données de démonstration pour les paiements d'avance -->
+        <record id="demo_advance_payment_1" model="account.payment">
+            <field name="payment_type">inbound</field>
+            <field name="payment_category">advance</field>
+            <field name="amount">500000</field>
+            <field name="currency_id" ref="base.XAF"/>
+            <field name="date" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="ref">Avance shipping - Dossier DEMO001</field>
+            <field name="state">posted</field>
+            <!-- Note: partner_id et folder_transit_id seront définis si les dossiers de démonstration existent -->
+        </record>
+        
+        <record id="demo_advance_payment_2" model="account.payment">
+            <field name="payment_type">inbound</field>
+            <field name="payment_category">advance</field>
+            <field name="amount">750000</field>
+            <field name="currency_id" ref="base.XAF"/>
+            <field name="date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="ref">Complément avance shipping - Dossier DEMO001</field>
+            <field name="state">posted</field>
+        </record>
+        
+    </data>
+</odoo>

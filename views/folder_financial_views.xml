@@ -47,6 +47,13 @@
                             invisible="stages != 'ship'"
                             icon="fa-file-text"
                             help="Create proforma invoice from port charges grid"/>
+                    <button name="action_view_advance_payments" 
+                            type="object" 
+                            string="View Payments" 
+                            class="btn-info"
+                            invisible="stages != 'ship'"
+                            icon="fa-money"
+                            help="View all payments for invoices linked to this shipping folder"/>
                     <button name="action_create_final_invoice" 
                             type="object" 
                             string="PROFORMA DEFINITVE" 
@@ -69,6 +76,18 @@
                                 <field name="sales_count"/>
                             </span>
                             <span class="o_stat_text">Proformas</span>
+                        </div>
+                    </button>
+                    
+                    <!-- Smart button pour voir les paiements -->
+                    <button class="oe_stat_button" 
+                            type="object" 
+                            name="action_view_advance_payments" 
+                            icon="fa-money"
+                            invisible="stages != 'ship'">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">Voir</span>
+                            <span class="o_stat_text">Paiements</span>
                         </div>
                     </button>
                 </xpath>
@@ -120,7 +139,19 @@
                                 <small><i class="fa fa-info-circle"></i> Défaut: 655.96 XAF/EUR (BEAC)</small>
                             </div>
                         </group>
-                        
+                    </group>
+                    
+                    <!-- Section des paiements des factures -->
+                    <group name="folder_payments_section" string="Paiements des Factures" 
+                           invisible="stages != 'ship'" groups="account.group_account_user">
+                        <div class="text-info">
+                            <p><i class="fa fa-info-circle"/> Les paiements sont automatiquement récupérés depuis les factures liées aux proformas de ce dossier.</p>
+                        </div>
+                        <button name="action_view_advance_payments" 
+                                type="object" 
+                                string="Voir Tous les Paiements" 
+                                class="btn btn-primary"
+                                icon="fa-eye"/>
                     </group>
                 </xpath>
 

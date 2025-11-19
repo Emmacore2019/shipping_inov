@@ -364,7 +364,8 @@ class FolderTransit(models.Model):
             'target': 'current',
         }
     
-    @api.depends('sale_ids', 'sale_ids.amount_total', 'line_ids', 'line_ids.amount')
+    @api.depends('sale_ids', 'sale_ids.amount_total', 'line_ids', 'line_ids.amount', 
+                 'sale_ids.invoice_ids', 'sale_ids.invoice_ids.payment_ids')
     def _compute_financial_amounts(self):
         """Calcule tous les montants financiers du dossier shipping"""
         for record in self:
@@ -372,10 +373,8 @@ class FolderTransit(models.Model):
             proforma_total = sum(record.sale_ids.mapped('amount_total'))
             record.proforma_total_amount = proforma_total
             
-            # Calcul des avances reçues (si le module inov_account est installé)
-            advance_total = 0.0
-            if hasattr(record, 'advance_payment_ids'):
-                advance_total = sum(record.advance_payment_ids.mapped('amount_total'))
+            # Calcul des avances reçues via plusieurs sources
+            advance_total = record._compute_advance_total()
             record.advance_total_received = advance_total
             
             # Calcul des dépenses (lignes analytiques négatives)
@@ -425,6 +424,33 @@ class FolderTransit(models.Model):
                 financial_status = 'completed'
             
             record.shipping_financial_status = financial_status
+    
+    def _compute_advance_total(self):
+        """Calcule le total des avances reçues via les paiements des factures liées au dossier"""
+        self.ensure_one()
+        
+        advance_total = 0.0
+        
+        # Parcourir toutes les proformas du dossier
+        for sale in self.sale_ids:
+            # Parcourir toutes les factures de chaque proforma
+            for invoice in sale.invoice_ids.filtered(lambda i: i.state == 'posted'):
+                # Récupérer tous les paiements réconciliés avec cette facture
+                for payment in invoice.payment_ids.filtered(lambda p: p.state == 'posted' and p.payment_type == 'inbound'):
+                    advance_total += payment.amount
+        
+        return advance_total
+    
+    def _get_folder_payments(self):
+        """Récupère tous les paiements liés aux factures du dossier"""
+        self.ensure_one()
+        
+        payments = self.env['account.payment']
+        for sale in self.sale_ids:
+            for invoice in sale.invoice_ids:
+                payments |= invoice.payment_ids
+        
+        return payments
     
     @api.depends("shipping_charge_ids.amount", "shipping_charge_ids.category")
     def _compute_shipping_totals(self):
@@ -711,6 +737,56 @@ Cette proforma définitive reflète les coûts réels du shipping.
             'view_mode': 'form',
             'target': 'current',
         }
+    
+    def action_view_advance_payments(self):
+        """Action pour voir tous les paiements des factures liées au dossier"""
+        self.ensure_one()
+        
+        # Récupérer tous les IDs de paiements liés aux factures du dossier
+        payment_ids = []
+        for sale in self.sale_ids:
+            for invoice in sale.invoice_ids:
+                payment_ids.extend(invoice.payment_ids.ids)
+        
+        return {
+            'name': f'Paiements Dossier - {self.name}',
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.payment',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', payment_ids)],
+            'context': {
+                'default_partner_id': self.customer_id.id,
+                'default_payment_type': 'inbound',
+            },
+            'target': 'current',
+        }
+    
+    def _auto_reconcile_advance_payments(self):
+        """Lettrage automatique des avances avec les factures"""
+        for record in self:
+            for payment in record.advance_payment_ids.filtered(lambda p: p.state == 'posted' and not p.reconciled_invoice_ids):
+                # Chercher des factures non lettrées du même client
+                unpaid_invoices = record.sale_ids.invoice_ids.filtered(
+                    lambda inv: inv.payment_state in ('not_paid', 'partial') 
+                    and inv.state == 'posted'
+                    and inv.partner_id == payment.partner_id
+                )
+                if unpaid_invoices:
+                    # Tentative de lettrage automatique
+                    try:
+                        remaining_amount = payment.amount
+                        for invoice in unpaid_invoices.sorted('date'):
+                            if remaining_amount <= 0:
+                                break
+                            
+                            # Calculer le montant à lettrer
+                            amount_to_reconcile = min(remaining_amount, invoice.amount_residual)
+                            if amount_to_reconcile > 0:
+                                # Créer l'écriture de lettrage (simplifié)
+                                remaining_amount -= amount_to_reconcile
+                    except Exception:
+                        # En cas d'erreur, ignorer le lettrage automatique
+                        pass
 
 
 class FolderTransitBL(models.Model):

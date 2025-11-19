@@ -36,6 +36,7 @@
         'views/navire_views.xml',
         'views/bl_order_views.xml',
         'views/shipping_charges_views.xml',
+        'views/payment_advance_views.xml',
         'views/templates.xml',
         'views/order_line.xml',
         'views/folder_financial_views.xml',
@@ -46,6 +47,7 @@
     'demo': [
         'demo/demo.xml',
         'demo/port_charges_demo.xml',
+        'demo/advance_payments_demo.xml',
     ],
     'installable': True,
     'application': True,

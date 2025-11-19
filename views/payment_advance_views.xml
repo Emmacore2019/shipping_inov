@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue arbre pour les paiements liés aux dossiers shipping -->
+        <record id="view_folder_payment_tree" model="ir.ui.view">
+            <field name="name">account.payment.folder.tree</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Paiements Dossier" create="false" edit="false">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="amount" sum="Total"/>
+                    <field name="currency_id"/>
+                    <field name="state" widget="badge" 
+                           decoration-info="state == 'draft'"
+                           decoration-success="state == 'posted'"
+                           decoration-muted="state == 'cancelled'"/>
+                    <field name="ref"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action pour ouvrir les paiements d'un dossier -->
+        <record id="action_folder_payments" model="ir.actions.act_window">
+            <field name="name">Paiements du Dossier</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'default_payment_type': 'inbound',
+                'search_default_state_posted': 1,
+            }</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_folder_payment_tree')}),
+            ]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Paiements liés au dossier
+                </p>
+                <p>
+                    Ces paiements sont automatiquement détectés à partir
+                    des factures réconciliées liées aux commandes du dossier.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
